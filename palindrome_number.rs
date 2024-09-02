@@ -1,9 +1,6 @@
- /* This is easiest tackled by converting the integer to a string, converting the characters into an
- * array, flipping the array, converting the array back to string -> back to integer and checking
- * if they equal
- *
- * THIS IS NOT YET COMPLETE.
- */
+/*
+This overflows with large integers when the integer is reversed
+*/
 
 impl Solution {
     pub fn is_palindrome(x: i32) -> bool {
@@ -13,10 +10,12 @@ impl Solution {
         let stringified= &x.to_string();
         let vectorfied: Vec<char> = stringified
             .chars()
-            .collect::<Vec<char>>();
+            .collect();
         let flipped: Vec<char> = vectorfied
-            .reverse();
-        let concatenated: i32 = &flipped
+            .into_iter()
+            .rev()
+            .collect();
+        let concatenated: i32 = flipped
             .iter()
             .map(|n| n.to_string())
             .collect::<String>()
@@ -29,4 +28,16 @@ impl Solution {
         }
     }
 }
+/*
+This compares the strings. It has okay complexity (O(Log(N)))
+*/
 
+impl Solution {
+    pub fn is_palindrome(x: i32) -> bool {
+        if x < 0 {
+            return false;
+        }
+        let s = x.to_string();
+        s == s.chars().rev().collect::<String>()
+    }
+}
